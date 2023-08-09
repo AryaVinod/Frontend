@@ -1,23 +1,52 @@
-import logo from './logo.svg';
+import { useState, useEffect } from 'react';
 import './App.css';
+import Field from './components/dropdown/Field'
+
+// const data = [
+//   {
+//     label: "None",
+//     states: [],
+//   },
+//   {
+//     label: "India",
+//     states: [{ label: "Kerala" }, { label: "Tamil nadu" }],
+//   },
+//   {
+//     label: "Japan",
+//     states: [{ label: "Tokyo" }, { label: "Osaka" }],
+//   },
+// ]
 
 function App() {
+
+  const [country, setCountry] = useState(null);
+  const [data, setdata] = useState([]);
+
+  useEffect(()=>{
+    setdata([
+      {
+        label: "None",
+        states: [],
+      },
+      {
+        label: "India",
+        states: [{ label: "Kerala" }, { label: "Tamil nadu" }],
+      },
+      {
+        label: "Japan",
+        states: [{ label: "Tokyo" }, { label: "Osaka" }],
+      },
+    ])
+  },[])
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div className="container">
+      <h2>Location Details</h2>
+      <Field label="Choose Country" options={data} onChooseCountry={setCountry}/>
+      {country && country !== "None" && (
+        <Field label="Choose State" options={data.find((item)=> item.label === country).states}/>
+      )}
+      <button className='button'>Submit</button>
     </div>
   );
 }
